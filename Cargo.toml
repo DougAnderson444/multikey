@@ -10,6 +10,7 @@ license = "Apache-2.0"
 
 [features]
 default = ["serde"]
+chacha20 = ["sodiumoxide"]
 
 [dependencies]
 bcrypt-pbkdf = "0.10"
@@ -27,7 +28,7 @@ multiutil = { version = "1.0", git = "https://github.com/cryptidtech/multiutil.g
 rand = "0.8"
 sec1 = "0.7"
 serde = { version = "1.0", default-features = false, features = ["alloc", "derive"], optional = true }
-sodiumoxide = "0.2"
+sodiumoxide = { version = "0.2", optional = true }
 ssh-key = { version = "0.6", features = ["alloc", "crypto", "ed25519"]}
 ssh-encoding = "0.2"
 thiserror = "1.0"
@@ -40,3 +41,4 @@ zeroize = "1.7"
 serde_test = "1.0"
 serde_cbor = "0.11"
 serde_json = "1.0"
+

@@ -1,10 +1,13 @@
 // SPDX-License-Idnetifier: Apache-2.0
 use crate::{
     error::{AttributesError, CipherError, ConversionsError, KdfError},
-    views::{bcrypt, bls12381, chacha20, ed25519, secp256k1},
+    views::{bcrypt, bls12381, ed25519, secp256k1},
     AttrId, AttrView, CipherAttrView, CipherView, ConvView, DataView, Error, FingerprintView,
     KdfAttrView, KdfView, SignView, ThresholdAttrView, ThresholdView, VerifyView, Views,
 };
+
+#[cfg(feature = "chacha20")]
+use crate::views::chacha20;
 
 use multibase::Base;
 use multicodec::Codec;
@@ -32,7 +35,7 @@ pub const KEY_CODECS: [Codec; 4] = [
     */
     Codec::Secp256K1Priv,
     Codec::Bls12381G1Priv,
-    Codec::Bls12381G2Priv
+    Codec::Bls12381G2Priv,
 ];
 
 /// the list of key share codecs supported
@@ -40,12 +43,11 @@ pub const KEY_SHARE_CODECS: [Codec; 4] = [
     Codec::Bls12381G1PubShare,
     Codec::Bls12381G1PrivShare,
     Codec::Bls12381G2PubShare,
-    Codec::Bls12381G2PrivShare
-    /*
-    Codec::LamportSha3256PrivShare,
-    Codec::LamportSha3384PrivShare,
-    Codec::LamportSha3512PrivShare,
-    */
+    Codec::Bls12381G2PrivShare, /*
+                                Codec::LamportSha3256PrivShare,
+                                Codec::LamportSha3384PrivShare,
+                                Codec::LamportSha3512PrivShare,
+                                */
 ];
 
 /// the multicodec sigil for multikey
@@ -206,6 +208,7 @@ impl Views for Multikey {
             Codec::Secp256K1Pub | Codec::Secp256K1Priv => {
                 Ok(Box::new(secp256k1::View::try_from(self)?))
             }
+            #[cfg(feature = "chacha20")]
             Codec::Chacha20Poly1305 => Ok(Box::new(chacha20::View::try_from(self)?)),
             _ => Err(AttributesError::UnsupportedCodec(self.codec).into()),
         }
@@ -219,6 +222,7 @@ impl Views for Multikey {
             self.codec
         };
         match codec {
+            #[cfg(feature = "chacha20")]
             Codec::Chacha20Poly1305 => Ok(Box::new(chacha20::View::try_from(self)?)),
             _ => Err(CipherError::UnsupportedCodec(self.codec).into()),
         }
@@ -239,6 +243,7 @@ impl Views for Multikey {
             Codec::Secp256K1Pub | Codec::Secp256K1Priv => {
                 Ok(Box::new(secp256k1::View::try_from(self)?))
             }
+            #[cfg(feature = "chacha20")]
             Codec::Chacha20Poly1305 => Ok(Box::new(chacha20::View::try_from(self)?)),
             _ => Err(ConversionsError::UnsupportedCodec(self.codec).into()),
         }
@@ -275,6 +280,7 @@ impl Views for Multikey {
     /// Provide an interface to do encryption/decryption of the viewed Multikey
     fn cipher_view<'a>(&'a self, cipher: &'a Multikey) -> Result<Box<dyn CipherView + 'a>, Error> {
         match cipher.codec {
+            #[cfg(feature = "chacha20")]
             Codec::Chacha20Poly1305 => Ok(Box::new(chacha20::View::new(self, cipher))),
             _ => Err(CipherError::UnsupportedCodec(self.codec).into()),
         }
@@ -314,6 +320,7 @@ impl Views for Multikey {
             Codec::Secp256K1Pub | Codec::Secp256K1Priv => {
                 Ok(Box::new(secp256k1::View::try_from(self)?))
             }
+            #[cfg(feature = "chacha20")]
             Codec::Chacha20Poly1305 => Ok(Box::new(chacha20::View::try_from(self)?)),
             _ => Err(ConversionsError::UnsupportedCodec(self.codec).into()),
         }
@@ -994,6 +1001,7 @@ mod tests {
         }
     }
 
+    #[cfg(feature = "chacha20")]
     #[test]
     fn test_encryption_roundtrip() {
         for codec in KEY_CODECS {
@@ -1138,8 +1146,9 @@ mod tests {
             assert!(kd.key_bytes().is_ok());
             assert!(kd.secret_bytes().is_ok());
 
-            let msg = hex::decode("8bb78be51ac7cc98f44e38947ff8a128764ec039b89687a790dfa8444ba97682")
-                .unwrap();
+            let msg =
+                hex::decode("8bb78be51ac7cc98f44e38947ff8a128764ec039b89687a790dfa8444ba97682")
+                    .unwrap();
 
             let signmk = mk.sign_view().unwrap();
             let signature = if codec == Codec::Bls12381G1Priv || codec == Codec::Bls12381G2Priv {
@@ -1235,9 +1244,7 @@ mod tests {
     #[test]
     fn test_from_ssh_pubkey() {
         let mut rng = rand::rngs::OsRng::default();
-        let kp = KeypairData::Ed25519(Ed25519Keypair::random(
-            &mut rng,
-        ));
+        let kp = KeypairData::Ed25519(Ed25519Keypair::random(&mut rng));
         let sk = PrivateKey::new(kp, "test key").unwrap();
 
         // build a multikey from the public key
@@ -1260,9 +1267,7 @@ mod tests {
     #[test]
     fn test_from_ssh_privkey() {
         let mut rng = rand::rngs::OsRng::default();
-        let kp = KeypairData::Ed25519(Ed25519Keypair::random(
-            &mut rng,
-        ));
+        let kp = KeypairData::Ed25519(Ed25519Keypair::random(&mut rng));
         let sk = PrivateKey::new(kp, "test key").unwrap();
 
         let mk = Builder::new_from_ssh_private_key(&sk)

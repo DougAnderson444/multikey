@@ -8,6 +8,7 @@ use zeroize::Zeroizing;
 // algorithms implement different sets of view
 pub(crate) mod bcrypt;
 pub(crate) mod bls12381;
+#[cfg(feature = "chacha20")]
 pub(crate) mod chacha20;
 pub(crate) mod ed25519;
 pub(crate) mod secp256k1;
