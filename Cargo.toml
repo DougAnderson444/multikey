@@ -14,7 +14,7 @@ wasm = ["getrandom/js"] # needed for CI testing on wasm32-unknown-unknown
 
 [dependencies]
 bcrypt-pbkdf = "0.10"
-blsful = { version = "2.5", git = "https://github.com/mikelodder7/blsful.git" }
+blsful = { version = "2.5" }
 ed25519-dalek = { version = "2.1", features = ["rand_core"] }
 elliptic-curve = "0.13"
 hex = "0.4"
@@ -22,7 +22,7 @@ k256 = "0.13"
 multibase = { version = "1.0", git = "https://github.com/cryptidtech/rust-multibase.git" }
 multicodec = { version = "1.0", git = "https://github.com/cryptidtech/rust-multicodec.git" }
 multihash = { version = "1.0", git = "https://github.com/cryptidtech/multihash.git" }
-multisig = { version = "^1.0", git = "https://github.com/cryptidtech/multisig.git" }
+multisig = { version = "^1.0", git = "https://github.com/DougAnderson444/multisig" }
 multitrait = { version = "1.0", git = "https://github.com/cryptidtech/multitrait.git" }
 multiutil = { version = "1.0", git = "https://github.com/cryptidtech/multiutil.git" }
 rand = "0.8"
