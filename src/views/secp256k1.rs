@@ -4,6 +4,7 @@ use crate::{
     AttrId, AttrView, Builder, CipherAttrView, ConvView, DataView, Error, FingerprintView,
     KdfAttrView, Multikey, SignView, VerifyView, Views,
 };
+use multicrates::*;
 
 use k256::ecdsa::{
     signature::{Signer, Verifier},
@@ -160,7 +161,7 @@ impl<'a> FingerprintView for View<'a> {
             // get the key bytes
             let bytes = {
                 let kd = self.mk.data_view()?;
-                
+
                 kd.key_bytes()?
             };
             // hash the key bytes using the given codec
@@ -175,7 +176,7 @@ impl<'a> ConvView for View<'a> {
         // get the secret key bytes
         let secret_bytes = {
             let kd = self.mk.data_view()?;
-            
+
             kd.secret_bytes()?
         };
 
@@ -204,7 +205,7 @@ impl<'a> ConvView for View<'a> {
 
         let key_bytes = {
             let kd = pk.data_view()?;
-            
+
             kd.key_bytes()?
         };
 
@@ -231,7 +232,7 @@ impl<'a> ConvView for View<'a> {
     fn to_ssh_private_key(&self) -> Result<ssh_key::PrivateKey, Error> {
         let secret_bytes = {
             let kd = self.mk.data_view()?;
-            
+
             kd.secret_bytes()?
         };
 
@@ -246,7 +247,7 @@ impl<'a> ConvView for View<'a> {
         let pk = self.to_public_key()?;
         let key_bytes = {
             let kd = pk.data_view()?;
-            
+
             kd.key_bytes()?
         };
 
@@ -286,7 +287,7 @@ impl<'a> SignView for View<'a> {
         // get the secret key bytes
         let secret_bytes = {
             let kd = self.mk.data_view()?;
-            
+
             kd.secret_bytes()?
         };
 
@@ -297,7 +298,7 @@ impl<'a> SignView for View<'a> {
                 .map_err(|_| {
                     ConversionsError::SecretKeyFailure("failed to get secret key bytes".to_string())
                 })?;
-            
+
             SigningKey::from_bytes(&bytes.into())
                 .map_err(|e| ConversionsError::SecretKeyFailure(e.to_string()))?
         };
@@ -322,7 +323,7 @@ impl<'a> VerifyView for View<'a> {
         let attr = self.mk.attr_view()?;
         let pubmk = if attr.is_secret_key() {
             let kc = self.mk.conv_view()?;
-            
+
             kc.to_public_key()?
         } else {
             self.mk.clone()
@@ -331,7 +332,7 @@ impl<'a> VerifyView for View<'a> {
         // get the secret key bytes
         let key_bytes = {
             let kd = pubmk.data_view()?;
-            
+
             kd.key_bytes()?
         };
 

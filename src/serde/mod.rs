@@ -6,6 +6,8 @@ mod ser;
 #[cfg(test)]
 mod tests {
     use crate::{cipher, kdf, nonce, Builder, EncodedMultikey, Multikey, Views};
+    use multicrates::*;
+
     use multibase::Base;
     use multicodec::Codec;
     use multihash::EncodedMultihash;
@@ -67,7 +69,7 @@ mod tests {
         // try to get the associated public key
         let mk = {
             let conv = sk.conv_view().unwrap();
-            
+
             conv.to_public_key().unwrap()
         };
 
@@ -123,7 +125,7 @@ mod tests {
 
         let mk = {
             let conv = sk.conv_view().unwrap();
-            
+
             conv.to_public_key().unwrap()
         };
 

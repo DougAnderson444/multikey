@@ -4,6 +4,8 @@ use crate::{
     AttrId, AttrView, CipherAttrView, CipherView, DataView, Error, FingerprintView, KdfAttrView,
     Multikey, Views,
 };
+use multicrates::*;
+
 use chacha20::cipher::{KeyIvInit, StreamCipher};
 use chacha20::{ChaCha20, Nonce};
 use multicodec::Codec;

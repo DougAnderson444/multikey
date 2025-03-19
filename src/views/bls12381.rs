@@ -7,6 +7,8 @@ use crate::{
     AttrId, AttrView, Builder, CipherAttrView, ConvView, DataView, Error, FingerprintView,
     KdfAttrView, Multikey, SignView, ThresholdAttrView, ThresholdView, VerifyView, Views,
 };
+use multicrates::*;
+
 use blsful::{
     inner_types::{G1Projective, G2Projective},
     vsss_rs::Share,

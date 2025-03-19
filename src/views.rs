@@ -1,8 +1,8 @@
 // SPDX-License-Idnetifier: Apache-2.0
 use crate::{Error, Multikey};
-use multicodec::Codec;
-use multihash::Multihash;
-use multisig::Multisig;
+use multicrates::multicodec::Codec;
+use multicrates::multihash::Multihash;
+use multicrates::multisig::Multisig;
 use zeroize::Zeroizing;
 
 // algorithms implement different sets of view

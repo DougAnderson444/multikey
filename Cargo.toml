@@ -19,12 +19,14 @@ ed25519-dalek = { version = "2.1", features = ["rand_core"] }
 elliptic-curve = "0.13"
 hex = "0.4"
 k256 = "0.13"
-multibase = { version = "1.0", git = "https://github.com/cryptidtech/rust-multibase.git" }
-multicodec = { version = "1.0", git = "https://github.com/cryptidtech/rust-multicodec.git" }
-multihash = { version = "1.0", git = "https://github.com/DougAnderson444/multihash.git", branch = "hash-impl" }
-multisig = { version = "^1.0", git = "https://github.com/DougAnderson444/multisig" }
-multitrait = { version = "1.0", git = "https://github.com/cryptidtech/multitrait.git" }
-multiutil = { version = "1.0", git = "https://github.com/cryptidtech/multiutil.git" }
+multicrates = { git = "https://github.com/DougAnderson444/multicrates.git", features = [
+  "multibase",
+  "multicodec",
+  "multihash",
+  "multisig",
+  "multitrait",
+  "multiutil",
+] }
 rand = "0.8"
 sec1 = "0.7"
 serde = { version = "1.0", default-features = false, features = [

@@ -3,6 +3,8 @@ use crate::{
     mk::{self, Attributes},
     nonce, AttrId, Multikey, Nonce,
 };
+use multicrates::{multicodec, multiutil};
+
 use core::fmt;
 use multicodec::Codec;
 use multiutil::EncodedVarbytes;

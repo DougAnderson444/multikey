@@ -6,6 +6,8 @@ use crate::{
     KdfAttrView, KdfView, SignView, ThresholdAttrView, ThresholdView, VerifyView, Views,
 };
 
+use multicrates::{multibase, multicodec, multitrait, multiutil};
+
 use multibase::Base;
 use multicodec::Codec;
 use multitrait::{Null, TryDecodeFrom};
@@ -913,7 +915,7 @@ impl Builder {
 mod tests {
     use super::*;
     use crate::{cipher, kdf};
-    use multisig::EncodedMultisig;
+    use multicrates::multisig::EncodedMultisig;
     use ssh_key::private::Ed25519Keypair;
 
     #[test]

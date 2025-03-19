@@ -49,3 +49,6 @@ pub mod prelude {
     pub use multicodec::Codec;
     pub use multiutil::BaseEncoded;
 }
+
+// Re-export all multi* crates to avoid dependency conflicts
+pub use multicrates::{multibase, multicodec, multihash, multisig, multitrait, multiutil};

@@ -30,22 +30,22 @@ pub enum Error {
 
     /// Multibase conversion error
     #[error(transparent)]
-    Multibase(#[from] multibase::Error),
+    Multibase(#[from] multicrates::multibase::Error),
     /// Multicodec decoding error
     #[error(transparent)]
-    Multicodec(#[from] multicodec::Error),
+    Multicodec(#[from] multicrates::multicodec::Error),
     /// Multiutil error
     #[error(transparent)]
-    Multiutil(#[from] multiutil::Error),
+    Multiutil(#[from] multicrates::multiutil::Error),
     /// Multisig error
     #[error(transparent)]
-    Multisig(#[from] multisig::Error),
+    Multisig(#[from] multicrates::multisig::Error),
     /// Multitrait error
     #[error(transparent)]
-    Multitrait(#[from] multitrait::Error),
+    Multitrait(#[from] multicrates::multitrait::Error),
     /// Multihash error
     #[error(transparent)]
-    Multihash(#[from] multihash::Error),
+    Multihash(#[from] multicrates::multihash::Error),
 
     /// Utf8 error
     #[error(transparent)]
@@ -67,13 +67,13 @@ pub enum Error {
 pub enum AttributesError {
     /// Error with the key codec
     #[error("Unsupported key codec: {0}")]
-    UnsupportedCodec(multicodec::Codec),
+    UnsupportedCodec(multicrates::multicodec::Codec),
     /// No key data attribute
     #[error("Key data unit missing")]
     MissingKey,
     /// Not a secret key
     #[error("Not a secret key {0}")]
-    NotSecretKey(multicodec::codec::Codec),
+    NotSecretKey(multicrates::multicodec::codec::Codec),
     /// Key is encrypted
     #[error("Key is encrypted")]
     EncryptedKey,
@@ -115,7 +115,7 @@ pub enum ConversionsError {
     UnsupportedAlgorithm(String),
     /// Error with the key codec
     #[error("Unsupported key codec: {0}")]
-    UnsupportedCodec(multicodec::Codec),
+    UnsupportedCodec(multicrates::multicodec::Codec),
 }
 
 /// SSH Encoding Errors that cannot be handled by thiserror since they may not use the std feature
@@ -167,7 +167,7 @@ impl From<ssh_encoding::LabelError> for SshErrors {
 pub enum CipherError {
     /// Error with the cipher codec
     #[error("Unsupported cipher codec: {0}")]
-    UnsupportedCodec(multicodec::Codec),
+    UnsupportedCodec(multicrates::multicodec::Codec),
     /// Missing codec
     #[error("Missing cipher codec")]
     MissingCodec,
@@ -206,7 +206,7 @@ pub enum KdfError {
     Bcrypt(#[from] bcrypt_pbkdf::Error),
     /// Error with the KDF codec
     #[error("Unsupported KDF codec: {0}")]
-    UnsupportedCodec(multicodec::Codec),
+    UnsupportedCodec(multicrates::multicodec::Codec),
     /// Missing codec
     #[error("Missing KDF codec")]
     MissingCodec,

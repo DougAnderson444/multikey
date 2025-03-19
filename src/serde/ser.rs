@@ -1,4 +1,6 @@
 // SPDX-License-Idnetifier: Apache-2.0
+use multicrates::*;
+
 use crate::{mk, nonce, AttrId, Multikey, Nonce};
 use multiutil::{EncodedVarbytes, EncodingInfo, Varbytes};
 use serde::ser::{self, SerializeStruct};
